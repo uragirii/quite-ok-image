@@ -1,8 +1,18 @@
-import './style.css'
+import "./style.css";
+import { imageToRaw } from "./convert";
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+// First load any PNG file -> Draw on Canvas -> Get Raw pixels -> Voila
+const fileInput = document.getElementById("imageInput");
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+if (!fileInput) {
+  throw new Error("File Input not found");
+}
+
+fileInput.onchange = async (e) => {
+  let file = (<HTMLInputElement>e.target).files?.[0];
+  if (!file) {
+    return;
+  }
+
+  await imageToRaw(file);
+};
